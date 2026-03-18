@@ -1,19 +1,18 @@
-/* Importando uma fonte que combine com a estética (opcional) */
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@400;700&display=swap');
 
 :root {
     --cor-papel: #fdfaf0;
     --cor-papel-escuro: #f2ecd9;
     --cor-texto: #333;
-    --cor-detalhe: #d9534f; /* Cor de "fita adesiva" ou caneta */
+    --cor-detalhe: #d9534f;
     --sombra: 5px 5px 15px rgba(0,0,0,0.1);
 }
 img {
     border-radius: 10%;
 }
 body {
-    background-color: #e5e5e5; /* Fundo da "mesa" */
-    background-image: radial-gradient(#bcbcbc 1px, transparent 1px); /* Textura leve */
+    background-color: #e5e5e5;
+    background-image: radial-gradient(#bcbcbc 1px, transparent 1px);
     background-size: 20px 20px;
     font-family: 'Inter', sans-serif;
     color: var(--cor-texto);
@@ -22,10 +21,9 @@ body {
 }
 
 h1, h2, h3, .logo {
-    font-family: 'Special+Elite', cursive; /* Fonte tipo máquina de escrever */
+    font-family: 'Special+Elite', cursive;
 }
 
-/* Efeito de Colagem nas Seções */
 section {
     background: var(--cor-papel);
     margin: 40px auto;
@@ -33,16 +31,13 @@ section {
     max-width: 800px;
     box-shadow: var(--sombra);
     position: relative;
-    /* Borda irregular simulando papel cortado */
     border-radius: 2px 5px 2px 10px / 5px 2px 10px 2px;
 }
 
-/* Rotacionando as seções levemente para o efeito "colado" */
 #sobre { transform: rotate(-1deg); z-index: 1; }
 #projetos { transform: rotate(1deg); margin-top: -20px; z-index: 2; }
 #contato { transform: rotate(-0.5deg); margin-top: -20px; }
 
-/* Detalhe de "Fita Adesiva" */
 section::before {
     content: "";
     position: absolute;
@@ -51,7 +46,7 @@ section::before {
     transform: translateX(-50%) rotate(2deg);
     width: 100px;
     height: 30px;
-    background: rgba(255, 255, 200, 0.5); /* Fita crepe semi-transparente */
+    background: rgba(255, 255, 200, 0.5);
     border: 1px solid rgba(0,0,0,0.05);
     backdrop-filter: blur(2px);
 }
@@ -84,14 +79,14 @@ section::before {
 /* Imagem de Perfil */
 .profile-img {
     width: 200px;
-    filter: sepia(0.3) contrast(1.1); /* Efeito foto antiga */
+    filter: sepia(0.3) contrast(1.1);
     border: 10px solid white;
     box-shadow: var(--sombra);
     transform: rotate(-3deg);
     margin-bottom: 20px;
 }
 
-/* Cards de Projetos como Recortes */
+/* Cards de Projetos*/
 .project-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
