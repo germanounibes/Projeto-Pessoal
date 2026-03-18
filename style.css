@@ -1,0 +1,133 @@
+/* Importando uma fonte que combine com a estética (opcional) */
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@400;700&display=swap');
+
+:root {
+    --cor-papel: #fdfaf0;
+    --cor-papel-escuro: #f2ecd9;
+    --cor-texto: #333;
+    --cor-detalhe: #d9534f; /* Cor de "fita adesiva" ou caneta */
+    --sombra: 5px 5px 15px rgba(0,0,0,0.1);
+}
+img {
+    border-radius: 10%;
+}
+body {
+    background-color: #e5e5e5; /* Fundo da "mesa" */
+    background-image: radial-gradient(#bcbcbc 1px, transparent 1px); /* Textura leve */
+    background-size: 20px 20px;
+    font-family: 'Inter', sans-serif;
+    color: var(--cor-texto);
+    margin: 0;
+    line-height: 1.6;
+}
+
+h1, h2, h3, .logo {
+    font-family: 'Special+Elite', cursive; /* Fonte tipo máquina de escrever */
+}
+
+/* Efeito de Colagem nas Seções */
+section {
+    background: var(--cor-papel);
+    margin: 40px auto;
+    padding: 30px;
+    max-width: 800px;
+    box-shadow: var(--sombra);
+    position: relative;
+    /* Borda irregular simulando papel cortado */
+    border-radius: 2px 5px 2px 10px / 5px 2px 10px 2px;
+}
+
+/* Rotacionando as seções levemente para o efeito "colado" */
+#sobre { transform: rotate(-1deg); z-index: 1; }
+#projetos { transform: rotate(1deg); margin-top: -20px; z-index: 2; }
+#contato { transform: rotate(-0.5deg); margin-top: -20px; }
+
+/* Detalhe de "Fita Adesiva" */
+section::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%) rotate(2deg);
+    width: 100px;
+    height: 30px;
+    background: rgba(255, 255, 200, 0.5); /* Fita crepe semi-transparente */
+    border: 1px solid rgba(0,0,0,0.05);
+    backdrop-filter: blur(2px);
+}
+
+/* Cabeçalho */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+}
+
+.navbar ul {
+    display: flex;
+    list-style: none;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: var(--cor-texto);
+    margin-left: 20px;
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+}
+
+.navbar ul li a:hover {
+    border-bottom: 2px dashed var(--cor-detalhe);
+}
+
+/* Imagem de Perfil */
+.profile-img {
+    width: 200px;
+    filter: sepia(0.3) contrast(1.1); /* Efeito foto antiga */
+    border: 10px solid white;
+    box-shadow: var(--sombra);
+    transform: rotate(-3deg);
+    margin-bottom: 20px;
+}
+
+/* Cards de Projetos como Recortes */
+.project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.project-card {
+    background: var(--cor-papel-escuro);
+    padding: 15px;
+    border: 1px dashed #bbb;
+    transition: transform 0.3s;
+}
+
+.project-card:hover {
+    transform: scale(1.05) rotate(0deg) !important;
+}
+
+.project-card:nth-child(odd) { transform: rotate(-2deg); }
+.project-card:nth-child(even) { transform: rotate(2deg); }
+
+/* Botões */
+.btn-primary {
+    display: inline-block;
+    background: var(--cor-detalhe);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 15px;
+    box-shadow: 3px 3px 0px #900;
+}
+
+.btn-primary:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px #900;
+}
+a {
+    margin: 1%;
+}
