@@ -7,6 +7,40 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  /* ── Language Switch ── */
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 999px;
+    overflow: hidden;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .lang-switch span {
+    padding: 5px 11px;
+    transition: background 0.25s, color 0.25s;
+    color: rgba(255,255,255,0.4);
+    line-height: 1;
+  }
+
+  .lang-switch span.active {
+    background: var(--accent, #e8ff00);
+    color: #000;
+    font-weight: 600;
+  }
+
+  .lang-switch:hover {
+    border-color: rgba(255,255,255,0.4);
+  }
+</style>
 </head>
 <body>
 
@@ -16,16 +50,22 @@
 <nav>
   <a href="#home" class="nav-logo">{Germano}</a>
   <ul class="nav-links">
-    <li><a href="#sobre">About</a></li>
-    <li><a href="#projetos">Work</a></li>
-    <li><a href="#contato">Contact</a></li>
+    <li><a href="#sobre" data-i18n="nav.about">About</a></li>
+    <li><a href="#projetos" data-i18n="nav.work">Work</a></li>
+    <li><a href="#contato" data-i18n="nav.contact">Contact</a></li>
+    <li>
+      <div class="lang-switch" id="langSwitch" title="Switch language">
+        <span id="langPT" class="active">PT</span>
+        <span id="langEN">EN</span>
+      </div>
+    </li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section id="home">
   <div class="hero-bg-text">MAKER</div>
-  <p class="hero-eyebrow">— Available for projects & collabs</p>
+  <p class="hero-eyebrow" data-i18n="hero.eyebrow">— Available for projects &amp; collabs</p>
   <h1 class="hero-name">João<br><span>Germano</span></h1>
   <div class="hero-sub">
     <div class="hero-sub-line"></div>
@@ -33,16 +73,16 @@
       <span id="rotating-text">Desenvolvedor Web</span>
     </p>
   </div>
-  <div class="hero-scroll">Scroll</div>
+  <div class="hero-scroll" data-i18n="hero.scroll">Scroll</div>
 </section>
 
 <!-- SOBRE -->
 <section id="sobre">
   <div class="about-left reveal">
-    <p class="section-label">// 001 — Sobre / About</p>
-    <h2>Faço<br>coisas<br><em style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--accent)">reais.</em></h2>
-    <p>Sou apaixonado por <strong>criação, inovação e evolução</strong>. Adoro robótica, informática, marketing, audiovisual e design — praticamente qualquer coisa que me deixe trazer algo ao mundo.</p>
-    <p>I build things that exist at the intersection of <strong>code, hardware, and creativity</strong>. From web apps to animatronics.</p>
+    <p class="section-label" data-i18n="about.label">// 001 — Sobre / About</p>
+    <h2 data-i18n-html="about.title">Faço<br>coisas<br><em style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--accent)">reais.</em></h2>
+    <p data-i18n-html="about.p1">Sou apaixonado por <strong>criação, inovação e evolução</strong>. Adoro robótica, informática, marketing, audiovisual e design — praticamente qualquer coisa que me deixe trazer algo ao mundo.</p>
+    <p data-i18n-html="about.p2">I build things that exist at the intersection of <strong>code, hardware, and creativity</strong>. From web apps to animatronics.</p>
     <div class="skills-grid">
       <span class="skill-tag">HTML/CSS</span>
       <span class="skill-tag">JavaScript</span>
@@ -51,17 +91,11 @@
       <span class="skill-tag">AI</span>
       <span class="skill-tag">Design</span>
       <span class="skill-tag">Audiovisual</span>
-      <span class="skill-tag">Mídias Sociais</span>
+      <span class="skill-tag" data-i18n="skill.social">Mídias Sociais</span>
     </div>
   </div>
   <div class="about-right reveal">
     <div class="photo-wrapper">
-      <!--<div class="photo-placeholder">
-        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-        </svg>
-        <span>foto.jpg</span>
-      </div>-->
       <img src="foto.jpg" alt="João Germano" style="width:100%;height:100%;object-fit:cover;">
       <div class="photo-frame-accent"></div>
       <div class="photo-tag">São Paulo, BR</div>
@@ -73,10 +107,10 @@
 <section id="projetos">
   <div class="projects-header reveal">
     <div>
-      <p class="section-label">// 002 — Projetos / Work</p>
-      <h2>Alguns<br>Builds</h2>
+      <p class="section-label" data-i18n="projects.label">// 002 — Projetos / Work</p>
+      <h2 data-i18n-html="projects.title">Alguns<br>Builds</h2>
     </div>
-    <span class="project-count">04 projetos</span>
+    <span class="project-count" data-i18n="projects.count">04 projetos</span>
   </div>
 
   <div class="projects-list">
@@ -84,7 +118,7 @@
       <span class="project-num">01</span>
       <div class="project-body">
         <div class="project-name">Soraki</div>
-        <p class="project-desc">App de organização de estudos com estética minimalista japonesa.</p>
+        <p class="project-desc" data-i18n="projects.soraki.desc">App de organização de estudos com estética minimalista japonesa.</p>
         <div class="project-tags">
           <span class="project-tag">Web App</span>
           <span class="project-tag">UI/UX</span>
@@ -98,7 +132,7 @@
       <span class="project-num">02</span>
       <div class="project-body">
         <div class="project-name">Beelder</div>
-        <p class="project-desc">Criação, gerenciamento e exportação de currículos — autossuficiente e open source.</p>
+        <p class="project-desc" data-i18n="projects.beelder.desc">Criação, gerenciamento e exportação de currículos — autossuficiente e open source.</p>
         <div class="project-tags">
           <span class="project-tag">Web Tool</span>
           <span class="project-tag">JavaScript</span>
@@ -112,9 +146,9 @@
       <span class="project-num">03</span>
       <div class="project-body">
         <div class="project-name">AlmoBot</div>
-        <p class="project-desc">Animatronic para interações sociais com crianças portadoras de TEA.</p>
+        <p class="project-desc" data-i18n="projects.almobot.desc">Animatronic para interações sociais com crianças portadoras de TEA.</p>
         <div class="project-tags">
-          <span class="project-tag">Robótica</span>
+          <span class="project-tag" data-i18n="tag.robotics">Robótica</span>
           <span class="project-tag">Arduino</span>
           <span class="project-tag">Social Impact</span>
         </div>
@@ -126,7 +160,7 @@
       <span class="project-num">04</span>
       <div class="project-body">
         <div class="project-name">Mobiliza</div>
-        <p class="project-desc">Canal voltado para os Objetivos de Desenvolvimento Sustentável da ONU.</p>
+        <p class="project-desc" data-i18n="projects.mobiliza.desc">Canal voltado para os Objetivos de Desenvolvimento Sustentável da ONU.</p>
         <div class="project-tags">
           <span class="project-tag">YouTube</span>
           <span class="project-tag">Audiovisual</span>
@@ -141,9 +175,9 @@
 <!-- CONTATO -->
 <section id="contato">
   <div class="contact-left reveal">
-    <p class="section-label">// 003 — Contato / Contact</p>
-    <h2>Vamos<br>Fazer<br><em>Algo.</em></h2>
-    <p>Aberto a projetos, colaborações e conversas interessantes. Se você tem uma ideia boa — ou estranha — me manda.<br><br>Open to projects, collabs and good conversations.</p>
+    <p class="section-label" data-i18n="contact.label">// 003 — Contato / Contact</p>
+    <h2 data-i18n-html="contact.title">Vamos<br>Fazer<br><em>Algo.</em></h2>
+    <p data-i18n-html="contact.desc">Aberto a projetos, colaborações e conversas interessantes. Se você tem uma ideia boa — ou estranha — me manda.<br><br>Open to projects, collabs and good conversations.</p>
   </div>
   <div class="contact-right reveal">
     <a href="mailto:joaogermano2730@gmail.com" class="contact-link">
@@ -160,61 +194,171 @@
 
 <footer>
   <p>© 2026 João Germano</p>
-  <p>Built with curiosity & caffeine ☕</p>
+  <p data-i18n="footer.built">Built with curiosity &amp; caffeine ☕</p>
 </footer>
-</body>
+
 <script>
-    // Custom cursor
+  /* ══════════════════════════════════════════
+     i18n — translations
+  ══════════════════════════════════════════ */
+  const translations = {
+    pt: {
+      'nav.about':   'Sobre',
+      'nav.work':    'Projetos',
+      'nav.contact': 'Contato',
+
+      'hero.eyebrow': '— Disponível para projetos & collabs',
+      'hero.scroll':  'Scroll',
+
+      'about.label': '// 001 — Sobre / About',
+      'about.title': 'Faço<br>coisas<br><em style="font-family:\'Instrument Serif\',serif;font-style:italic;color:var(--accent)">reais.</em>',
+      'about.p1':    'Sou apaixonado por <strong>criação, inovação e evolução</strong>. Adoro robótica, informática, marketing, audiovisual e design — praticamente qualquer coisa que me deixe trazer algo ao mundo.',
+      'about.p2':    'Construo coisas na interseção de <strong>código, hardware e criatividade</strong>. De web apps a animatrônicos.',
+
+      'skill.social': 'Mídias Sociais',
+
+      'projects.label': '// 002 — Projetos / Work',
+      'projects.title': 'Alguns<br>Builds',
+      'projects.count': '04 projetos',
+
+      'projects.soraki.desc':   'App de organização de estudos com estética minimalista japonesa.',
+      'projects.beelder.desc':  'Criação, gerenciamento e exportação de currículos — autossuficiente e open source.',
+      'projects.almobot.desc':  'Animatronic para interações sociais com crianças portadoras de TEA.',
+      'projects.mobiliza.desc': 'Canal voltado para os Objetivos de Desenvolvimento Sustentável da ONU.',
+
+      'tag.robotics': 'Robótica',
+
+      'contact.label': '// 003 — Contato / Contact',
+      'contact.title': 'Vamos<br>Fazer<br><em>Algo.</em>',
+      'contact.desc':  'Aberto a projetos, colaborações e conversas interessantes. Se você tem uma ideia boa — ou estranha — me manda.<br><br>Open to projects, collabs and good conversations.',
+
+      'footer.built': 'Feito com curiosidade & cafeína ☕',
+    },
+    en: {
+      'nav.about':   'About',
+      'nav.work':    'Work',
+      'nav.contact': 'Contact',
+
+      'hero.eyebrow': '— Available for projects & collabs',
+      'hero.scroll':  'Scroll',
+
+      'about.label': '// 001 — About',
+      'about.title': 'I build<br>real<br><em style="font-family:\'Instrument Serif\',serif;font-style:italic;color:var(--accent)">things.</em>',
+      'about.p1':    'I\'m passionate about <strong>creation, innovation and growth</strong>. I love robotics, computing, marketing, audiovisual and design — basically anything that lets me bring something into the world.',
+      'about.p2':    'I build things that exist at the intersection of <strong>code, hardware, and creativity</strong>. From web apps to animatronics.',
+
+      'skill.social': 'Social Media',
+
+      'projects.label': '// 002 — Work',
+      'projects.title': 'Some<br>Builds',
+      'projects.count': '04 projects',
+
+      'projects.soraki.desc':   'Study organization app with a minimalist Japanese aesthetic.',
+      'projects.beelder.desc':  'Resume creation, management and export — self-contained and open source.',
+      'projects.almobot.desc':  'Animatronic designed for social interactions with children on the autism spectrum.',
+      'projects.mobiliza.desc': 'YouTube channel focused on the UN Sustainable Development Goals.',
+
+      'tag.robotics': 'Robotics',
+
+      'contact.label': '// 003 — Contact',
+      'contact.title': 'Let\'s<br>Build<br><em>Something.</em>',
+      'contact.desc':  'Open to projects, collabs and good conversations. If you have a good idea — or a weird one — reach out.',
+
+      'footer.built': 'Built with curiosity & caffeine ☕',
+    }
+  };
+
+  const rolesPT = ['Desenvolvedor Web', 'Front-end Dev', 'Maker & Creator', 'Arduino Builder', 'UI Designer', 'Content Creator'];
+  const rolesEN = ['Web Developer',     'Front-end Dev', 'Maker & Creator', 'Arduino Builder', 'UI Designer', 'Content Creator'];
+
+  let currentLang = 'pt';
+
+  function applyLang(lang) {
+    const t = translations[lang];
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+
+    // plain text nodes
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+
+    // HTML nodes (bold, em, br…)
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.dataset.i18nHtml;
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+
+    // toggle button visual state
+    document.getElementById('langPT').classList.toggle('active', lang === 'pt');
+    document.getElementById('langEN').classList.toggle('active', lang === 'en');
+
+    // update rotating text array without resetting interval
+    currentLang = lang;
+  }
+
+  document.getElementById('langSwitch').addEventListener('click', () => {
+    applyLang(currentLang === 'pt' ? 'en' : 'pt');
+  });
+
+  // init
+  applyLang('pt');
+
+  /* ══════════════════════════════════════════
+     Custom cursor
+  ══════════════════════════════════════════ */
   const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
+  const ring   = document.getElementById('cursor-ring');
   let mx = 0, my = 0, rx = 0, ry = 0;
 
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
     cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
+    cursor.style.top  = my + 'px';
   });
 
-  function animateRing() {
+  (function animateRing() {
     rx += (mx - rx) * 0.12;
     ry += (my - ry) * 0.12;
     ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
+    ring.style.top  = ry + 'px';
     requestAnimationFrame(animateRing);
-  }
-  animateRing();
+  })();
 
-  document.querySelectorAll('a, button, .skill-tag').forEach(el => {
+  document.querySelectorAll('a, button, .skill-tag, .lang-switch').forEach(el => {
     el.addEventListener('mouseenter', () => {
-      cursor.style.width = '20px';
+      cursor.style.width  = '20px';
       cursor.style.height = '20px';
-      ring.style.width = '60px';
-      ring.style.height = '60px';
+      ring.style.width    = '60px';
+      ring.style.height   = '60px';
     });
     el.addEventListener('mouseleave', () => {
-      cursor.style.width = '12px';
+      cursor.style.width  = '12px';
       cursor.style.height = '12px';
-      ring.style.width = '40px';
-      ring.style.height = '40px';
+      ring.style.width    = '40px';
+      ring.style.height   = '40px';
     });
   });
 
-  // Rotating text
-  const roles = ['Desenvolvedor Web', 'Front-end Dev', 'Maker & Creator', 'Arduino Builder', 'UI Designer', 'Content Creator'];
+  /* ══════════════════════════════════════════
+     Rotating text
+  ══════════════════════════════════════════ */
   let ri = 0;
   const rotEl = document.getElementById('rotating-text');
+  rotEl.style.transition = 'opacity 0.4s';
+
   setInterval(() => {
     rotEl.style.opacity = 0;
     setTimeout(() => {
-      ri = (ri + 1) % roles.length;
-      rotEl.textContent = roles[ri];
+      ri = (ri + 1) % rolesPT.length;
+      rotEl.textContent = currentLang === 'pt' ? rolesPT[ri] : rolesEN[ri];
       rotEl.style.opacity = 1;
     }, 400);
   }, 2200);
-  rotEl.style.transition = 'opacity 0.4s';
 
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
+  /* ══════════════════════════════════════════
+     Scroll reveal
+  ══════════════════════════════════════════ */
   const obs = new IntersectionObserver(entries => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
@@ -222,6 +366,8 @@
       }
     });
   }, { threshold: 0.1 });
-  reveals.forEach(r => obs.observe(r));
+
+  document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
 </script>
+</body>
 </html>
