@@ -1,104 +1,700 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>João Germano — Maker & Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a08;
+    --bg2: #111110;
+    --text: #f0ece0;
+    --muted: #7a7768;
+    --accent: #e87a2a;
+    --accent2: #f0c060;
+    --border: #2a2a26;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* CURSOR */
+  #cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: difference;
+  }
+  #cursor-ring {
+    position: fixed;
+    width: 40px; height: 40px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.5;
+  }
+  body:hover #cursor { opacity: 1; }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    mix-blend-mode: difference;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  #home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.7s 0.3s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 15vw, 14rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 0.9s 0.5s forwards;
+  }
+  .hero-name span { color: var(--accent); }
+
+  .hero-sub {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.7s 0.9s forwards;
+  }
+  .hero-sub-line {
+    width: 60px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .hero-rotating {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--muted);
+    min-width: 280px;
+  }
+  .hero-rotating span { color: var(--text); transition: opacity 0.4s; }
+
+  .hero-scroll {
+    position: absolute;
+    right: 3rem;
+    bottom: 4rem;
+    writing-mode: vertical-rl;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 1.3s forwards;
+  }
+  .hero-scroll::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 60px;
+    background: var(--accent);
+    animation: scrollLine 2s 2s infinite;
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    top: 50%;
+    right: -2rem;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(8rem, 22vw, 22rem);
+    color: transparent;
+    -webkit-text-stroke: 1px var(--border);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    z-index: -1;
+  }
+
+  /* SOBRE */
+  #sobre {
+    padding: 8rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  .about-left h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 0.95;
+    margin-bottom: 2rem;
+  }
+
+  .about-left p {
+    font-size: 0.85rem;
+    line-height: 1.9;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+  }
+  .about-left p strong { color: var(--text); font-weight: 400; }
+
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 2.5rem;
+  }
+  .skill-tag {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: all 0.25s;
+    cursor: default;
+  }
+  .skill-tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232, 122, 42, 0.05);
+  }
+
+  .about-right {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .photo-wrapper {
+    position: relative;
+    width: 320px;
+    height: 400px;
+  }
+  .photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .photo-placeholder svg { opacity: 0.3; }
+  .photo-frame-accent {
+    position: absolute;
+    bottom: -16px; right: -16px;
+    width: 100%; height: 100%;
+    border: 1px solid var(--accent);
+    z-index: -1;
+  }
+  .photo-tag {
+    position: absolute;
+    top: -1rem;
+    left: -1rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    font-weight: 500;
+  }
+
+  /* PROJETOS */
+  #projetos {
+    padding: 8rem 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+
+  .projects-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1;
+  }
+
+  .project-count {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .projects-list { display: flex; flex-direction: column; gap: 0; }
+
+  .project-item {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    transition: all 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .project-item:last-child { border-bottom: 1px solid var(--border); }
+
+  .project-item:hover { padding-left: 1rem; }
+  .project-item:hover .project-num { color: var(--accent); }
+  .project-item:hover .project-arrow { transform: translate(4px, -4px); color: var(--accent); }
+  .project-item:hover .project-name { color: var(--accent2); }
+
+  .project-num {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    transition: color 0.3s;
+  }
+
+  .project-body { }
+  .project-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .project-desc {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 0.4rem;
+    line-height: 1.6;
+  }
+  .project-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.7rem;
+    flex-wrap: wrap;
+  }
+  .project-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(232,122,42,0.3);
+    padding: 0.2rem 0.6rem;
+  }
+
+  .project-arrow {
+    font-size: 1.4rem;
+    color: var(--border);
+    transition: transform 0.3s, color 0.3s;
+  }
+
+  /* CONTATO */
+  #contato {
+    padding: 8rem 3rem;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .contact-left h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 8rem);
+    line-height: 0.9;
+    margin-bottom: 1.5rem;
+  }
+  .contact-left h2 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .contact-left p {
+    font-size: 0.8rem;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 380px;
+  }
+
+  .contact-right { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 1.8rem;
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-link::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0;
+    background: var(--accent);
+    transition: width 0.3s;
+    z-index: -1;
+  }
+  .contact-link:hover::before { width: 100%; }
+  .contact-link:hover { color: var(--bg); border-color: var(--accent); }
+  .contact-link span { font-size: 1rem; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer p { font-size: 0.65rem; letter-spacing: 0.1em; color: var(--muted); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollLine {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    #home { padding: 0 1.5rem 3rem; }
+    #sobre { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
+    #projetos { padding: 5rem 1.5rem; }
+    #contato { grid-template-columns: 1fr; padding: 5rem 1.5rem; }
+    .about-right { display: none; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="logo">{Germano}<span></span></div>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#projetos">Projetos</a></li>
-                <li><a href="#contato">Contato</a></li>
-            </ul>
-        </nav>
-    </header>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h1>Olá, meu nome é <span class="highlight"><u>João Germano</u></span></h1>
-                <p>Desenvolvedor Web | Amante de Robótica | Creator</p>
-                <a href="mailto: joaogermano2730@gmail.com" class="btn-primary">Vamos Conversar?</a>
-            </div>
-        </section>
+<nav>
+  <a href="#home" class="nav-logo">{JG}</a>
+  <ul class="nav-links">
+    <li><a href="#sobre">About</a></li>
+    <li><a href="#projetos">Work</a></li>
+    <li><a href="#contato">Contact</a></li>
+  </ul>
+</nav>
 
-        <section id="sobre" class="about">
-            <h2>Sobre Mim</h2>
-            <div class="about-container">
-                <img src="foto.jpg" alt="Foto de Perfil" class="profile-img">
-                <div class="about-text">
-                    <p>Eu sou um apaixonado por criação, inovação e evolução.
-Adoro robótica, informatica, marketing, audiovisual, design e praticamente qualquer coisa que deixe trazer algo feito por mim ao mundo.</p>
-                    <p>Tenho experiência com HTML, CSS, JS, AI, Arduino, Esp32, Mídias Sociais e Sempre Estou Aprendendo algo Novo.</p>
-                </div>
-            </div>
-        </section>
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg-text">MAKER</div>
+  <p class="hero-eyebrow">— Available for projects & collabs</p>
+  <h1 class="hero-name">João<br><span>Germano</span></h1>
+  <div class="hero-sub">
+    <div class="hero-sub-line"></div>
+    <p class="hero-rotating">
+      <span id="rotating-text">Desenvolvedor Web</span>
+    </p>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
 
-        <section id="projetos" class="projects">
-            <h2>Alguns Projetos</h2>
-            <div class="project-grid">
-                <article class="project-card">
-                    <div class="project-info">
-                        <h3>Soraki - Study Buddy</h3>
-                        <p>O Soraki é um aplicativo de organização de estudos inspirado na estética minimalista japonesa.</p>
-                        <a href="https://github.com/sorakiApp/Soraki" target="_blank">Github Projeto</a>
-                        <br>
-                        <a href="https://soraki.vercel.app/" target="_blank">Link Projeto</a>
-                    </div>
-                </article>
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="about-left reveal">
+    <p class="section-label">// 001 — Sobre / About</p>
+    <h2>Faço<br>coisas<br><em style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--accent)">reais.</em></h2>
+    <p>Sou apaixonado por <strong>criação, inovação e evolução</strong>. Adoro robótica, informática, marketing, audiovisual e design — praticamente qualquer coisa que me deixe trazer algo ao mundo.</p>
+    <p>I build things that exist at the intersection of <strong>code, hardware, and creativity</strong>. From web apps to animatronics.</p>
+    <div class="skills-grid">
+      <span class="skill-tag">HTML/CSS</span>
+      <span class="skill-tag">JavaScript</span>
+      <span class="skill-tag">Arduino</span>
+      <span class="skill-tag">ESP32</span>
+      <span class="skill-tag">AI</span>
+      <span class="skill-tag">Design</span>
+      <span class="skill-tag">Audiovisual</span>
+      <span class="skill-tag">Mídias Sociais</span>
+    </div>
+  </div>
+  <div class="about-right reveal">
+    <div class="photo-wrapper">
+      <div class="photo-placeholder">
+        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span>foto.jpg</span>
+      </div>
+      <div class="photo-frame-accent"></div>
+      <div class="photo-tag">São Paulo, BR</div>
+    </div>
+  </div>
+</section>
 
-                <article class="project-card">
-                    <div class="project-info">
-                        <h3>Beelder - Currículos</h3>
-                        <p>Um projeto web simples e autossuficiente para criação, gerenciamento e exportação de currículos.</p>
-                        <a href="https://github.com/GermanJoao/TCC-Web" target="_blank">Github do Projeto</a>
-                        <br>
-                        <a href="https://germanjoao.github.io/TCC-Web/" target="_blank">Link Projeto</a>
-                    </div>
-                </article>
+<!-- PROJETOS -->
+<section id="projetos">
+  <div class="projects-header reveal">
+    <div>
+      <p class="section-label">// 002 — Projetos / Work</p>
+      <h2>Alguns<br>Builds</h2>
+    </div>
+    <span class="project-count">04 projetos</span>
+  </div>
 
-                <article class="project-card">
-                    <div class="project-info">
-                        <h3>AlmoBot</h3>
-                        <p>Animatronic para interações sociais com Crianças portadoras de TEA.</p>
-                        <a href="https://www.youtube.com/watch?v=Ulz2mxO3n8M" target="_blank">Link Video</a>
-                    </div>
-                </article>
+  <div class="projects-list">
+    <a href="https://soraki.vercel.app/" target="_blank" class="project-item reveal">
+      <span class="project-num">01</span>
+      <div class="project-body">
+        <div class="project-name">Soraki</div>
+        <p class="project-desc">App de organização de estudos com estética minimalista japonesa.</p>
+        <div class="project-tags">
+          <span class="project-tag">Web App</span>
+          <span class="project-tag">UI/UX</span>
+          <span class="project-tag">Study Tools</span>
+        </div>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
 
-                <article class="project-card">
-                    <div class="project-info">
-                        <h3>Mobiliza</h3>
-                        <p>um canal no YouTube voltado para conscientização sobre os Objetivos de Desenvolvimento Sustentável da ONU.</p>
-                        <a href="https://youtube.com/@mobilizabr?si=2e2gq2zb-ERrPXIi" target="_blank">Link Projeto</a>
-                    </div>
-                </article>
-            </div>
-        </section>
+    <a href="https://germanjoao.github.io/TCC-Web/" target="_blank" class="project-item reveal">
+      <span class="project-num">02</span>
+      <div class="project-body">
+        <div class="project-name">Beelder</div>
+        <p class="project-desc">Criação, gerenciamento e exportação de currículos — autossuficiente e open source.</p>
+        <div class="project-tags">
+          <span class="project-tag">Web Tool</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">Open Source</span>
+        </div>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
 
-        <section id="contato" class="contact">
-            <h2>Contato</h2>
-            <div class="contact-links">
-                <a href="mailto: joaogermano2730@gmail.com">E-mail</a>
-                <a href="https://www.linkedin.com/in/jo%C3%A3o-germano-059571264?trk" target="_blank">LinkedIn</a>
-                <a href="https://github.com/GermanJoao" target="_blank">GitHub</a>
-            </div>
-        </section>
-    </main>
+    <a href="https://www.youtube.com/watch?v=Ulz2mxO3n8M" target="_blank" class="project-item reveal">
+      <span class="project-num">03</span>
+      <div class="project-body">
+        <div class="project-name">AlmoBot</div>
+        <p class="project-desc">Animatronic para interações sociais com crianças portadoras de TEA.</p>
+        <div class="project-tags">
+          <span class="project-tag">Robótica</span>
+          <span class="project-tag">Arduino</span>
+          <span class="project-tag">Social Impact</span>
+        </div>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
 
-    <footer style="display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 100%;">
-        <p>&copy; 2026 João Germano.</p>
-    </footer>
+    <a href="https://youtube.com/@mobilizabr" target="_blank" class="project-item reveal">
+      <span class="project-num">04</span>
+      <div class="project-body">
+        <div class="project-name">Mobiliza</div>
+        <p class="project-desc">Canal voltado para os Objetivos de Desenvolvimento Sustentável da ONU.</p>
+        <div class="project-tags">
+          <span class="project-tag">YouTube</span>
+          <span class="project-tag">Audiovisual</span>
+          <span class="project-tag">ODS/SDG</span>
+        </div>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+  </div>
+</section>
 
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contact-left reveal">
+    <p class="section-label">// 003 — Contato / Contact</p>
+    <h2>Vamos<br>Fazer<br><em>Algo.</em></h2>
+    <p>Aberto a projetos, colaborações e conversas interessantes. Se você tem uma ideia boa — ou estranha — me manda.<br><br>Open to projects, collabs and good conversations.</p>
+  </div>
+  <div class="contact-right reveal">
+    <a href="mailto:joaogermano2730@gmail.com" class="contact-link">
+      E-mail <span>→</span>
+    </a>
+    <a href="https://www.linkedin.com/in/jo%C3%A3o-germano-059571264" target="_blank" class="contact-link">
+      LinkedIn <span>→</span>
+    </a>
+    <a href="https://github.com/GermanJoao" target="_blank" class="contact-link">
+      GitHub <span>→</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 João Germano</p>
+  <p>Built with curiosity & caffeine ☕</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .skill-tag').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+      ring.style.width = '60px';
+      ring.style.height = '60px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+      ring.style.width = '40px';
+      ring.style.height = '40px';
+    });
+  });
+
+  // Rotating text
+  const roles = ['Desenvolvedor Web', 'Front-end Dev', 'Maker & Creator', 'Arduino Builder', 'UI Designer', 'Content Creator'];
+  let ri = 0;
+  const rotEl = document.getElementById('rotating-text');
+  setInterval(() => {
+    rotEl.style.opacity = 0;
+    setTimeout(() => {
+      ri = (ri + 1) % roles.length;
+      rotEl.textContent = roles[ri];
+      rotEl.style.opacity = 1;
+    }, 400);
+  }, 2200);
+  rotEl.style.transition = 'opacity 0.4s';
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => obs.observe(r));
+</script>
 </body>
-</html> 
+</html>
